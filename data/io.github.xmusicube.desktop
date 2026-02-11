@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=xmusicube
+Comment=Download music from YouTube and Spotify
+Exec=xmusicube
+Icon=io.github.xmusicube
+Type=Application
+Categories=AudioVideo;Audio;
+Terminal=false
+StartupNotify=true

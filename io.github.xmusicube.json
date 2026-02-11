@@ -1,0 +1,68 @@
+{
+    "app-id": "io.github.xmusicube",
+    "runtime": "org.gnome.Platform",
+    "runtime-version": "45",
+    "sdk": "org.gnome.Sdk",
+    "command": "xmusicube",
+    "finish-args": [
+        "--share=network",
+        "--socket=fallback-x11",
+        "--socket=wayland",
+        "--filesystem=xdg-download",
+        "--device=dri"
+    ],
+    "modules": [
+        {
+            "name": "python3-requirements",
+            "buildsystem": "simple",
+            "build-commands": [
+                "pip3 install --prefix=/app --no-index --find-links=wheels -r requirements.txt"
+            ],
+            "sources": [
+                {
+                    "type": "file",
+                    "path": "requirements.txt"
+                },
+                {
+                    "type": "dir",
+                    "path": "wheels",
+                    "dest": "wheels"
+                },
+                {
+                    "type": "file",
+                    "path": "data/io.github.xmusicube.desktop"
+                },
+                {
+                    "type": "file",
+                    "path": "data/icon.png"
+                }
+            ]
+        },
+        {
+            "name": "xmusicube",
+            "buildsystem": "simple",
+            "build-commands": [
+                "mkdir -p /app/lib/python3.11/site-packages/xmusicube",
+                "install -D src/main.py /app/lib/python3.11/site-packages/xmusicube/main.py",
+                "install -D src/__init__.py /app/lib/python3.11/site-packages/xmusicube/__init__.py",
+                "install -D src/window.py /app/lib/python3.11/site-packages/xmusicube/window.py",
+                "install -D src/download_manager.py /app/lib/python3.11/site-packages/xmusicube/download_manager.py",
+                "install -D src/settings.py /app/lib/python3.11/site-packages/xmusicube/settings.py",
+                "install -D src/row.py /app/lib/python3.11/site-packages/xmusicube/row.py",
+                "install -D src/style.css /app/share/xmusicube/style.css",
+                "install -D data/io.github.xmusicube.desktop /app/share/applications/io.github.xmusicube.desktop",
+                "install -D data/icon.png /app/share/icons/hicolor/512x512/apps/io.github.xmusicube.png",
+                "mkdir -p /app/bin",
+                "echo '#!/bin/sh' > /app/bin/xmusicube",
+                "echo 'exec python3 -m xmusicube.main \"$@\"' >> /app/bin/xmusicube",
+                "chmod +x /app/bin/xmusicube"
+            ],
+            "sources": [
+                {
+                    "type": "dir",
+                    "path": "."
+                }
+            ]
+        }
+    ]
+}

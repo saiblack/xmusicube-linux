@@ -1,0 +1,7 @@
+.flatpak-builder/
+build-dir/
+repo/
+.venv/
+wheels/
+__pycache__/
+get-pip.py
